@@ -6,6 +6,11 @@ class ProductManager {
 
     addProduct(title, description, price, thumbnail, code, stock) {
 
+        if (!title || !description || !price || !thumbnail || !code || !stock) {
+            console.log("Todos los campos son obligatorios.");
+            return;
+        }
+
         const existingProduct = this.products.find(product => product.code === code);
         if (existingProduct) {
             console.log(`El campo 'code' ${code} ya existe para otro producto.`);
@@ -13,17 +18,17 @@ class ProductManager {
         }
 
 
-        const product = {
-            id: this.nextId,
+       
+        this.products.push({
+            id:this.nextId++,
             title,
             description,
             price,
             thumbnail,
             code,
-            stock
-        };
-        this.products.push(product);
-        this.nextId++;
+            stock,
+        });
+        
 
         console.log(`Producto agregado: ${title}`);
     }
@@ -34,11 +39,11 @@ class ProductManager {
 
     getProductById(id) {
         const product = this.products.find(product => product.id === id);
-        if (product) {
-            return product;
-        } else {
+        if (!product) {
             console.log("not found");
-            return null;
+        } else {
+            return product;
+           
         }
     }
 
